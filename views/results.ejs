@@ -1,0 +1,25 @@
+<%- include('partials/header.ejs') %>
+
+    <body>
+        <main>
+            <h1> Cool Images </h1>
+        </main>
+<form action="/search">
+    <input type="text" placeholder="Type keyword" name="keyword" />
+    <br /> <br />
+    <button> Search </button>
+    <h1 class="test"> ? </h1>
+    <hr />
+    <% imageUrlArray.forEach(function(imageUrl, i){ %>
+        <%- (i % 3 == 0) ? '<br>':'' %>
+        <img src='<%= imageUrl %>' width='200' height='200' />
+        <img class='favoriteIcon' src='img/favorite.png' width='20'>
+        
+    <% });%>
+    
+    
+</form>
+
+<%- include('partials/footer.ejs') %>
+    </body>
+</html>
