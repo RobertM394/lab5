@@ -23,6 +23,20 @@ app.get("/search", async function(req, res){
   res.render("results", {"imageUrlArray": imageUrlArray}); 
  });//app.get(search)
 
+//***API Routes*** 
+
+app.get("/getKeywords", function(req, res){
+   let sql = "SELECT DISTINCT keyword FROM favorites ORDER BY keyword";
+   let imageUrlArray = ["img/favorite.png"];
+   pool.query(sql, function(err, rows, fields){
+    
+    if (err) throw err;
+    console.log(rows);
+    res.render("favorites", {"imageUrlArray": imageUrlArray, "rows": rows});
+       
+   });
+});//getKeywords API
+
 app.get("/api/updateFavorites", function(req, res){
     
     let sql;
@@ -42,6 +56,19 @@ app.get("/api/updateFavorites", function(req, res){
        res.send(rows.affectedRows.toString());
     });
 });//app.get update favorites API
+
+//api getFavorites route
+app.get("/api/getFavorites", function(req, res){
+   let sql = "SELECT imageURL FROM favorites WHERE keyword =?";
+   let sqlParams = [req.query.keyword];
+   pool.query(sql, sqlParams, function (err, rows, fields){
+      if (err) throw err;
+      console.log(rows);
+      res.send(rows);
+   });
+    
+});//api/getFavorites
+
 
 
 function getRandomImage(keyword, count){
